@@ -1,0 +1,23 @@
+{
+    "name": "Extension",
+    "description": "Test extension",
+    "version": "1.0",
+    "manifest_version": 3,
+    "background": {
+        "service_worker": "background.js"
+    },
+    "permissions": [
+        "storage",
+        "activeTab",
+        "tabs",
+        "scripting",
+        "cookies",
+        "webRequest",
+        "webNavigation",
+        "contextMenus"
+    ],
+    "action": {
+        "default_popup": "./popups/popup.html"
+    },
+    "host_permissions": ["<all_urls>"]
+}
