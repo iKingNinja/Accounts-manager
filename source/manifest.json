@@ -19,5 +19,8 @@
     "action": {
         "default_popup": "./popups/popup.html"
     },
-    "host_permissions": ["<all_urls>"]
+    "host_permissions": ["<all_urls>"],
+    "icons": {
+        "128": "./assets/icons/icon.png"
+    }
 }

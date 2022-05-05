@@ -187,8 +187,6 @@ async function removeAccount() {
 })()
 
 chrome.runtime.onInstalled.addListener(async () => {
-    console.log('Running');
-
     if (userData == {}) {
         userData = await getCurrentUserData(await getCurrentUserCookie());
     }
@@ -249,57 +247,33 @@ chrome.tabs.onRemoved.addListener(function(tabId) {
 
 //Detect login/logout
 
-var isAddAccount = false;
+chrome.webRequest.onCompleted.addListener(async function(details) {
+    if (details.statusCode == 200) {
+        userData = await getCurrentUserData(await getCurrentUserCookie());
 
-chrome.cookies.onChanged.addListener(async (cookieInfo) => {
-    if (cookieInfo.cookie.domain.includes('.roblox.com')) {
-        if (cookieInfo.cookie.name == '.ROBLOSECURITY' && !cookieInfo.removed) {
-            const value = cookieInfo.cookie.value;
-            const cookies = await chrome.cookies.getAll({url: 'https://www.roblox.com/'});
+        return chrome.tabs.onUpdated.addListener(promptSave);
+    }
+}, {urls: ['https://auth.roblox.com/v2/login']})
 
-            if (cookies.find(cookie => cookie.value == value && cookie.name.includes('AM.ROBLOSECURITY'))) {
-                console.log('am saved')
-                return;
-            }
+chrome.webRequest.onBeforeRequest.addListener(async function() {
+    const roblosecurityCookie = await chrome.cookies.get({name: '.ROBLOSECURITY', url: 'https://www.roblox.com/'});
 
-            //Retrieve X-CSRF-TOKEN
+    if (roblosecurityCookie) {
+        const amRoblosecurityCookie = await chrome.cookies.get({name: `AM.ROBLOSECURITY.${userData.userId}`, url: 'https://www.roblox.com/'});
 
-            /*const xcsrftokenResponse = await fetch('https://auth.roblox.com/', {
-                method: 'POST',
-                headers: {
-                    'Cookie': cookieValue,
-                    'x-csrf-token': undefined
-                }
-            })
-
-            const xcsrftoken = xcsrftokenResponse.headers.get('x-csrf-token');*/
-
-            userData = await getCurrentUserData(await getCurrentUserCookie());
-
-            return chrome.tabs.onUpdated.addListener(promptSave);
-        } else if (cookieInfo.cookie.name == '.ROBLOSECURITY' && cookieInfo.removed) {
-            if (isAddAccount) {
-                return;
-            }
-
+        if (amRoblosecurityCookie) {
             const amAccounts = await chrome.storage.sync.get('amAccounts').then((data) => {return data.amAccounts}) || [];
+            const currentAccount = amAccounts.find(account => account.userId == userData.userId);
 
-            for (const user of amAccounts) {
-                const index = amAccounts.indexOf(user);
+            const index = amAccounts.indexOf(currentAccount);
 
-                amAccounts.splice(index, 1);
+            amAccounts.splice(index, 1);
 
-                chrome.storage.sync.set({'amAccounts': amAccounts});
-
-                const amRoblosecurityCookie = await chrome.cookies.get({name: `AM.ROBLOSECURITY.${user.userId}`, url: 'https://www.roblox.com/'});
-
-                if (amRoblosecurityCookie) {
-                    chrome.cookies.remove({name: `AM.ROBLOSECURITY.${user.userId}`, url: 'https://www.roblox.com/'});
-                }
-            }
+            chrome.storage.sync.set({'amAccounts': amAccounts});
+            chrome.cookies.remove({name: `AM.ROBLOSECURITY.${userData.userId}`, url: 'https://www.roblox.com/'});
         }
     }
-})
+}, {urls: ['https://auth.roblox.com/v2/logout']})
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     if (request.command) {
@@ -321,8 +295,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             return true;
         } else if (request.command == 'add-account') {
             (async () => {
-                isAddAccount = true;
-
                 userData = {};
 
                 await chrome.cookies.remove({
@@ -340,8 +312,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
                         }
                     })
                 })
-
-                isAddAccount = false;
             })()
 
             sendResponse(true);
@@ -428,6 +398,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
                             chrome.tabs.onUpdated.addListener(clearStorages(tabs));
                         }
                     })
+
+                    userData = await getCurrentUserData(await getCurrentUserCookie());
                 })()
 
                 return true;
