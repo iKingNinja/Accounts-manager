@@ -6,6 +6,10 @@ An extension to keep multiple Roblox accounts connected at the same time on just
 This extension allows you to keep more accounts connected in just one browser at the same time. You will be prompted to save your account when you login, if you accept then a copy of your `.ROBLOSECURITY` cookie will be made and named `AM.ROBLOSECURITY.<UserId>`. Cookie copies are saved with the same security level as roblox's ROBLOSECURITY cookie, these copies have the httpOnly flag enabled so that the chances of an XSS attack are lowred.
 You can easily switch to another account using the panel that you can access by clicking on the extension icon.
 
+# ⚠ BE AWARE OF SCAM COPIES
+
+The only official extension developed by iKingNinja is this one. This extension is not published on any browser's extensions marketplace so any that you can find there are unofficial and so no warranty is provided.
+
 # How it works
 
 This extension automatically detects logins to Roblox and prompts you to save the account you logged in, if you accept a copy of the account's ROBLOSECURITY cookie will be made so it can be used when you want to switch account to replace the current ROBLOSECURITY cookie.
