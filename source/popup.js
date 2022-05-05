@@ -42,19 +42,9 @@ window.onload = function() {
 
                     const username = document.createElement('label');
                     username.innerText = user.username;
-
-                    /*const settingsButton = document.createElement('button');
-                    settingsButton.className = 'settingsButton';
-                    
-                    const settingsButtonIcon = document.createElement('span');
-                    settingsButtonIcon.className = "material-symbols-outlined";
-                    settingsButtonIcon.innerText = 'delete';
-
-                    settingsButton.appendChild(settingsButtonIcon);*/
                     frame.appendChild(avatarHeadshot);
                     frame.appendChild(username);
                     mainFrame.appendChild(frame);
-                    //mainFrame.appendChild(settingsButton);
 
                     frame.addEventListener('mouseenter', function () {
                         frame.style.backgroundColor = '#2e2e2e';
