@@ -1,6 +1,6 @@
 {
-    "name": "Extension",
-    "description": "Test extension",
+    "name": "Accounts manager",
+    "description": "Keep multiple Roblox accounts connected at the same time on just one browser.",
     "version": "1.0",
     "manifest_version": 3,
     "background": {
