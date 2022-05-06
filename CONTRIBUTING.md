@@ -1,3 +1,8 @@
+<div align="center">
+  
+  ![Accounts manager icon](https://user-images.githubusercontent.com/83887130/167217046-31bf5c0a-7b1a-41d2-a7dd-7127ef8a13e3.png)
+</div>
+
 The following is the documentation on how to contribute to this extension.
 
 # Guidelines
