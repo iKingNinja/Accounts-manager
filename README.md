@@ -1,3 +1,9 @@
+<div align="center">
+
+  ![Accounts manager icon](https://user-images.githubusercontent.com/83887130/167175812-6ec74e51-7c72-4a87-a581-04164ee8339a.png)
+  
+</div>
+
 # Accounts-manager
 An extension to keep multiple Roblox accounts connected at the same time on just one browser
 
