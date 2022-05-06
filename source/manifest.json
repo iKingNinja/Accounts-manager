@@ -13,8 +13,7 @@
         "scripting",
         "cookies",
         "webRequest",
-        "webNavigation",
-        "contextMenus"
+        "webNavigation"
     ],
     "action": {
         "default_popup": "./popups/popup.html"

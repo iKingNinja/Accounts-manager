@@ -30,38 +30,40 @@ window.onload = function() {
             document.getElementById('popupBody').innerHTML = accountsHTML;
 
             chrome.runtime.sendMessage({command: 'get-user-data'}, function(userData) {
-                for (const user of userData) {
-                    const mainFrame = document.createElement('div');
-
-                    const frame = document.createElement('div');
-                    frame.className = 'accountFrame';
-                    frame.id = user.userId;
-
-                    const avatarHeadshot = document.createElement('img');
-                    avatarHeadshot.src = user.avatarURL;
-
-                    const username = document.createElement('label');
-                    username.innerText = user.username;
-                    frame.appendChild(avatarHeadshot);
-                    frame.appendChild(username);
-                    mainFrame.appendChild(frame);
-
-                    frame.addEventListener('mouseenter', function () {
-                        frame.style.backgroundColor = '#2e2e2e';
-                    })
-
-                    frame.addEventListener('mouseleave', function () {
-                        frame.style.backgroundColor = '#3c3c3c';
-                    })
-
-                    frame.addEventListener('click', function() {
-                        chrome.runtime.sendMessage({data: {
-                            command: 'switch-account',
-                            userId: frame.id
-                        }})
-                    })
-
-                    document.getElementById('container').appendChild(mainFrame);
+                if (userData) {
+                    for (const user of userData) {
+                        const mainFrame = document.createElement('div');
+    
+                        const frame = document.createElement('div');
+                        frame.className = 'accountFrame';
+                        frame.id = user.userId;
+    
+                        const avatarHeadshot = document.createElement('img');
+                        avatarHeadshot.src = user.avatarURL;
+    
+                        const username = document.createElement('label');
+                        username.innerText = user.username;
+                        frame.appendChild(avatarHeadshot);
+                        frame.appendChild(username);
+                        mainFrame.appendChild(frame);
+    
+                        frame.addEventListener('mouseenter', function () {
+                            frame.style.backgroundColor = '#2e2e2e';
+                        })
+    
+                        frame.addEventListener('mouseleave', function () {
+                            frame.style.backgroundColor = '#3c3c3c';
+                        })
+    
+                        frame.addEventListener('click', function() {
+                            chrome.runtime.sendMessage({data: {
+                                command: 'switch-account',
+                                userId: frame.id
+                            }})
+                        })
+    
+                        document.getElementById('container').appendChild(mainFrame);
+                    }
                 }
 
                 if (!areListenersAttached) {
@@ -70,7 +72,7 @@ window.onload = function() {
                         window.close();
                     })
     
-                    if (userData.length == 0) {
+                    if ((!userData) || userData.length == 0) {
                         const removeAccountButton = document.getElementById('removeAccount');
                         removeAccountButton.style.cursor = 'default';
                         removeAccountButton.style.backgroundColor = '#f5726c';
