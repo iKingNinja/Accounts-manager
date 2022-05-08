@@ -42,3 +42,7 @@ This means that issues created in the issues page of this repository or in our D
 # BETA Version
 
 This extension is currently in beta so expect bugs. If you find any bug please report it in [the issues page](https://github.com/iKingNinja/Accounts-manager/issues) or in our [Discord server](https://discord.gg/v2Y83Numgf).
+
+# Warning
+
+DO NOT republish. The only purpose of this being public is to show the code so that you can feel safe while using the extension and NOT redistributing.
