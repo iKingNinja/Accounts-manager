@@ -1,5 +1,5 @@
 async function isCurrentTabRoblox() {
-    const tabs = await chrome.tabs.query({active: true, currentWindow: true}); -//get all open tabs in current window
+    const tabs = await chrome.tabs.query({active: true, currentWindow: true}); //get all open tabs in current window
 
     if (tabs[0].url.includes('.roblox.com')) { //check if the url of the current tab is a roblox url (domain or subdomain) 
         return true;
