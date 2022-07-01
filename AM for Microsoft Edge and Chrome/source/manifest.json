@@ -1,0 +1,25 @@
+{
+    "name": "Accounts manager",
+    "description": "Keep multiple Roblox accounts connected at the same time on just one browser.",
+    "version": "1.0",
+    "manifest_version": 3,
+    "background": {
+        "service_worker": "background.js"
+    },
+    "permissions": [
+        "storage",
+        "activeTab",
+        "tabs",
+        "scripting",
+        "cookies",
+        "webRequest",
+        "webNavigation"
+    ],
+    "action": {
+        "default_popup": "./popups/popup.html"
+    },
+    "host_permissions": ["*://*.roblox.com/*"],
+    "icons": {
+        "128": "./assets/icons/icon.png"
+    }
+}
