@@ -240,6 +240,17 @@ async function logoutIfNotSaved() {
     }
 }
 
+async function clearStorages() { //clear all session storage and local storage data to not mix accounts data
+    const tabs = await browser.tabs.query({active: true, currentWindow: true});
+
+    browser.tabs.executeScript(tabs[0].id, {
+        code: `
+            window.localStorage.clear();
+            window.sessionStorage.clear();
+        `
+    })
+}
+
 function logWarning() {
     console.log('%c ATTENTION!', 'color: red; font-size: 70px;');
     console.log('%c Editing data here can lead to the extension to not work correctly.', 'color: white; font-size: 27px;');
@@ -311,6 +322,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
             browser.cookies.remove({name: '.ROBLOSECURITY', url: 'https://www.roblox.com'});
             userData = await getCurrentUserData();
 
+            clearStorages()
             reloadCurrentTab();
 
             sendResponse(true);
@@ -328,6 +340,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
             }
 
             await logoutIfNotSaved();
+            clearStorages();
             
             const cookie = await browser.cookies.set({
                 domain: amCookie.domain,
