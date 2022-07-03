@@ -1,10 +1,10 @@
 {
     "name": "Accounts manager",
-    "description": "Keep multiple Roblox accounts connected at the same time on just one browser.",
-    "version": "1.0",
+    "description": "Keep multiple Roblox accounts connected at the same time on just one chrome.",
+    "version": "1.0.1",
     "manifest_version": 3,
     "background": {
-        "service_worker": "background.js"
+        "service_worker": "index.js"
     },
     "permissions": [
         "storage",
