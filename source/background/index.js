@@ -1,3 +1,5 @@
+importScripts('./loadCached.js');
+
 //Functions
 
 async function getCurrentCookie() {
@@ -120,8 +122,6 @@ async function promptSave(details, tabId) {
             return result;
         }
     })
-
-    console.log(saveDecision);
 
     if (saveDecision[0]) {
         const userId = userData.UserId;
@@ -274,6 +274,32 @@ function logWarning() {
 
 //Events
 
+chrome.runtime.onInstalled.addListener(async () => {
+    const oldCookiesFound = await scanForOldCookies();
+
+    if (oldCookiesFound) {
+        chrome.tabs.query({currentWindow: true}, async (tabs) => {
+            const robloxTabs = tabs.filter(tab => tab.url.includes('https://www.roblox.com'));
+            
+            if (robloxTabs.length > 0) {
+                const firstTab = robloxTabs[0];
+                const tabId = firstTab.id;
+    
+                const restoreDecision = await chrome.scripting.executeScript({
+                    target: {tabId: tabId},
+                    func: function() {
+                        return window.confirm('Previously saved accounts were found: do you want to restore them?')
+                    }
+                })
+    
+                if (restoreDecision[0].result) {
+                    restoreOldAccounts();
+                }
+            }
+        })
+    }
+})
+
 chrome.tabs.onUpdated.addListener((id, info) => {
     if (info.status == 'complete') {
         injectPopup();
@@ -296,7 +322,6 @@ chrome.webRequest.onCompleted.addListener(async (details) => {
     }
 
     async function onLoginUpdated(tabId, info) {
-        console.log(tabId, info);
         if (info.status == 'complete' && tabId == id) {
             chrome.tabs.onUpdated.removeListener(onLoginUpdated);
 

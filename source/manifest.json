@@ -4,7 +4,7 @@
     "version": "1.0.1",
     "manifest_version": 3,
     "background": {
-        "service_worker": "index.js"
+        "service_worker": "background/index.js"
     },
     "permissions": [
         "storage",
