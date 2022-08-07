@@ -1,6 +1,6 @@
 ---
-name: ''
-about: ''
+name: Bug Report
+about: Create a report to help me improve Accounts manager
 title: ''
 labels: ''
 assignees: ''
